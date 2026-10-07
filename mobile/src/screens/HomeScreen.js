@@ -1,0 +1,12 @@
+import React from 'react';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { colors, radii, spacing } from '../constants/theme';
+import { products } from '../data/mockData';
+import { Button, Card, Header, Screen, SectionTitle, formatMoney } from '../components/ui/Common';
+import { JerseyPreview } from '../components/ui/JerseyPreview';
+import { ProductCard } from '../components/ui/ProductCard';
+
+export default function HomeScreen({ t, onNavigate, onProduct }) {
+  return <Screen><Header title={t('greeting')} subtitle={t('greetingSub')} /><View style={styles.hero}><Text style={styles.kicker}>FORMO STUDIO · 01</Text><Text style={styles.heroTitle}>{t('greeting')}</Text><Text style={styles.heroText}>{t('greetingSub')}</Text><Button onPress={() => onNavigate('studio')} style={styles.heroButton}>{t('startDesign')} →</Button><View style={styles.heroJersey}><JerseyPreview product={products[0]} number="7" /></View></View><SectionTitle eyebrow={t('collection')} title={t('popular')} action={t('all')} onAction={() => onNavigate('catalog')} /><View style={styles.grid}>{products.slice(0, 2).map((item) => <ProductCard key={item.id} product={item} onPress={() => onProduct(item)} />)}</View><Card style={styles.info}><Text style={styles.infoIcon}>✦</Text><View style={{ flex: 1 }}><Text style={styles.infoTitle}>Harakat uchun yaratilgan</Text><Text style={styles.infoText}>Nafas oluvchi mato, aniq bichim va O‘zbekiston bo‘ylab yetkazib berish.</Text></View></Card></Screen>;
+}
+const styles = StyleSheet.create({ hero: { height: 325, borderRadius: radii.lg, backgroundColor: '#1B235B', padding: spacing.xl, overflow: 'hidden', marginBottom: spacing.xxxl }, kicker: { color: colors.success, fontSize: 10, fontWeight: '900', letterSpacing: 1 }, heroTitle: { color: colors.text, fontSize: 31, lineHeight: 35, fontWeight: '900', width: 210, marginTop: spacing.md }, heroText: { color: '#C4CCEF', width: 210, fontSize: 13, lineHeight: 19, marginTop: spacing.md }, heroButton: { alignSelf: 'flex-start', marginTop: spacing.lg }, heroJersey: { position: 'absolute', right: -10, bottom: -25, transform: [{ rotate: '12deg' }] }, grid: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: spacing.xl }, info: { flexDirection: 'row', gap: spacing.md, alignItems: 'center' }, infoIcon: { color: colors.accent, fontSize: 25 }, infoTitle: { color: colors.text, fontSize: 13, fontWeight: '900' }, infoText: { color: colors.muted, fontSize: 11, lineHeight: 16, marginTop: 4 } });

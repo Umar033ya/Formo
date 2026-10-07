@@ -1,10 +1,13 @@
 {
   "expo": {
-    "name": "FORMО",
+    "name": "Formo",
     "slug": "formo",
-    "version": "1.0.0",
+    "version": "0.2.0",
     "orientation": "portrait",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "dark",
+    "splash": {
+      "backgroundColor": "#070A24"
+    },
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.formo.app"
