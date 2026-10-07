@@ -1,7 +1,9 @@
 import { api } from '../../services/api';
 import { ROLES } from '../../constants/roles';
 
-const USE_MOCK = import.meta.env.VITE_USE_MOCK_AUTH === 'true';
+// Backend hali tayyor emas, shuning uchun .env bo'lmasa ham mock login ishlaydi.
+// Haqiqiy backendga ulash uchun .env da VITE_USE_MOCK_AUTH=false qiling.
+const USE_MOCK = import.meta.env.VITE_USE_MOCK_AUTH !== 'false';
 
 // Backend tayyor bo'lguncha test uchun foydalanuvchilar (VITE_USE_MOCK_AUTH=true)
 const MOCK_USERS = [

@@ -20,7 +20,7 @@ export default function Login() {
     setLoading(true);
 
     try {
-      const user = await login({ phone: phone.replace(/\s/g, ''), password });
+      const user = await login({ phone: phone.replace(/[^\d+]/g, ''), password });
       const home = ROLE_HOME[user.role];
       if (!home) throw new Error("Bu foydalanuvchi uchun ruxsat yo'q");
       navigate(home, { replace: true });
