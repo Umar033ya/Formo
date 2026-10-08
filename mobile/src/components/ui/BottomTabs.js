@@ -21,8 +21,8 @@ export function BottomTabs({ active, onChange, cartCount, t }) {
             <View style={styles.iconWrap}>
               <MaterialCommunityIcons
                 name={isActive ? iconActive : icon}
-                size={24}
-                color={isActive ? colors.accent : colors.muted}
+                size={22}
+                color={isActive ? colors.accent : '#7C86AE'}
               />
               {key === 'catalog' && cartCount > 0 ? (
                 <View style={styles.dot}>
@@ -44,37 +44,38 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    height: 78,
+    height: 74,
     borderTopWidth: 1,
-    borderTopColor: colors.border,
-    backgroundColor: '#0C1030',
+    borderTopColor: '#1C2148',
+    backgroundColor: colors.tabBar,
     flexDirection: 'row',
     justifyContent: 'space-around',
     paddingTop: 10,
   },
   item: {
     alignItems: 'center',
-    width: 65,
+    width: 66,
   },
   iconWrap: {
     position: 'relative',
   },
   label: {
-    color: colors.muted,
+    color: '#7C86AE',
     fontSize: 10,
     marginTop: 4,
   },
   activeLabel: {
-    color: colors.text,
-    fontWeight: '800',
+    color: colors.accent,
+    fontWeight: '700',
   },
   dot: {
     position: 'absolute',
-    top: -3,
-    right: -10,
-    width: 16,
+    top: -4,
+    right: -9,
+    minWidth: 16,
     height: 16,
     borderRadius: 8,
+    paddingHorizontal: 4,
     backgroundColor: colors.accent,
     alignItems: 'center',
     justifyContent: 'center',

@@ -1,13 +1,147 @@
-import React from 'react';
-import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { Alert, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { colors, radii, spacing } from '../constants/theme';
 import { Button, Card, Header, Screen, formatMoney } from '../components/ui/Common';
 import { JerseyPreview } from '../components/ui/JerseyPreview';
 
 export default function CartScreen({ cart, removeFromCart, clearCart, t, onBack }) {
+  const [promo, setPromo] = useState('');
   const total = cart.reduce((sum, item) => sum + item.price, 0);
   const checkout = () => Alert.alert(t('checkout'), t('mockCheckout'));
-  return <Screen><Header title={t('cart')} subtitle={`${cart.length} ${t('items')}`} onBack={onBack} />{cart.length === 0 ? <Card style={styles.empty}><Text style={styles.emptyIcon}>＋</Text><Text style={styles.emptyTitle}>{t('emptyCart')}</Text><Text style={styles.emptyText}>{t('emptyCartSub')}</Text><Button onPress={onBack} style={styles.emptyButton}>{t('goStudio')} →</Button></Card> : <><View style={styles.list}>{cart.map((item, index) => <View key={`${item.id}-${index}`} style={styles.item}><View style={[styles.thumb, { backgroundColor: item.color }]}><JerseyPreview product={item} number={item.customNumber} compact /></View><View style={{ flex: 1 }}><Text style={styles.name}>{item.name}</Text><Text style={styles.sub}>{item.customName} · №{item.customNumber}</Text><Text style={styles.price}>{formatMoney(item.price)}</Text></View><Pressable onPress={() => removeFromCart(index)}><Text style={styles.remove}>×</Text></Pressable></View>)}</View><Card style={styles.summary}><Row label={t('products')} value={formatMoney(total)} /><Row label={t('delivery')} value={t('free')} /><View style={styles.divider} /><Row label={t('total')} value={formatMoney(total)} strong /></Card><Button onPress={checkout}>{t('checkout')} →</Button><Pressable onPress={clearCart} style={styles.clear}><Text style={styles.clearText}>Savatni tozalash</Text></Pressable></>}</Screen>;
+  const applyPromo = () => Alert.alert(t('promoApply'), t('promoDemo'));
+
+  return (
+    <Screen>
+      <Header title={t('cart')} right={<Text style={styles.count}>{cart.length} {t('pcs')}</Text>} />
+      {cart.length === 0 ? (
+        <Card style={styles.empty}>
+          <Text style={styles.emptyIcon}>＋</Text>
+          <Text style={styles.emptyTitle}>{t('emptyCart')}</Text>
+          <Text style={styles.emptyText}>{t('emptyCartSub')}</Text>
+          <Button onPress={onBack} style={styles.emptyButton}>{t('goStudio')}</Button>
+        </Card>
+      ) : (
+        <>
+          <View style={styles.list}>
+            {cart.map((item, index) => (
+              <View key={`${item.id}-${index}`} style={styles.item}>
+                <View style={styles.thumb}>
+                  <JerseyPreview product={item} number={item.customNumber} tiny />
+                </View>
+                <View style={styles.itemCopy}>
+                  <Text style={styles.name}>{item.name}</Text>
+                  <Text style={styles.sub}>{item.customName} · №{item.customNumber}</Text>
+                  <Text style={styles.price}>{formatMoney(item.price)}</Text>
+                </View>
+                <Pressable onPress={() => removeFromCart(index)} style={styles.remove} hitSlop={6}>
+                  <Text style={styles.removeText}>×</Text>
+                </Pressable>
+              </View>
+            ))}
+          </View>
+
+          <View style={styles.promo}>
+            <TextInput
+              value={promo}
+              onChangeText={setPromo}
+              placeholder="FORMO10"
+              placeholderTextColor="#6E77A3"
+              autoCapitalize="characters"
+              style={styles.promoInput}
+            />
+            <Pressable onPress={applyPromo} hitSlop={14}>
+              <Text style={styles.promoApply}>{t('promoApply')}</Text>
+            </Pressable>
+          </View>
+
+          <Card style={styles.summary}>
+            <Row label={t('products')} value={formatMoney(total)} />
+            <Row label={t('delivery')} value={t('free')} />
+            <View style={styles.divider} />
+            <Row label={t('total')} value={formatMoney(total)} strong />
+          </Card>
+
+          <Button onPress={checkout}>{t('checkout')}</Button>
+          <Pressable onPress={clearCart} style={styles.clear}>
+            <Text style={styles.clearText}>{t('clearCart')}</Text>
+          </Pressable>
+        </>
+      )}
+    </Screen>
+  );
 }
-function Row({ label, value, strong }) { return <View style={styles.row}><Text style={[styles.rowLabel, strong && styles.strong]}>{label}</Text><Text style={[styles.rowValue, strong && styles.strong]}>{value}</Text></View>; }
-const styles = StyleSheet.create({ empty: { alignItems: 'center', marginTop: spacing.xxxl }, emptyIcon: { color: colors.accent, fontSize: 42 }, emptyTitle: { color: colors.text, fontSize: 20, fontWeight: '900', marginTop: spacing.md }, emptyText: { color: colors.muted, textAlign: 'center', lineHeight: 20, marginTop: spacing.sm }, emptyButton: { marginTop: spacing.xl }, list: { gap: spacing.md, marginBottom: spacing.xl }, item: { flexDirection: 'row', alignItems: 'center', gap: spacing.md, backgroundColor: colors.surface, padding: spacing.md, borderRadius: radii.lg }, thumb: { width: 60, height: 70, borderRadius: radii.md, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }, name: { color: colors.text, fontWeight: '900', fontSize: 13 }, sub: { color: colors.muted, fontSize: 11, marginTop: 4 }, price: { color: colors.text, fontWeight: '800', fontSize: 12, marginTop: 7 }, remove: { color: colors.muted, fontSize: 26, padding: 5 }, summary: { gap: spacing.md, marginBottom: spacing.lg }, row: { flexDirection: 'row', justifyContent: 'space-between' }, rowLabel: { color: colors.muted, fontSize: 12 }, rowValue: { color: colors.text, fontSize: 12, fontWeight: '700' }, strong: { color: colors.text, fontSize: 16, fontWeight: '900' }, divider: { borderTopWidth: 1, borderTopColor: colors.border }, clear: { alignItems: 'center', padding: spacing.lg }, clearText: { color: colors.muted, fontSize: 12 } });
+
+function Row({ label, value, strong }) {
+  return (
+    <View style={styles.row}>
+      <Text style={[styles.rowLabel, strong && styles.strongLabel]}>{label}</Text>
+      <Text style={[styles.rowValue, strong && styles.strong]}>{value}</Text>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  count: { color: colors.muted, fontSize: 13, fontWeight: '700' },
+  empty: { alignItems: 'center', marginTop: spacing.xxxl },
+  emptyIcon: { color: colors.accent, fontSize: 42 },
+  emptyTitle: { color: colors.text, fontSize: 20, fontWeight: '800', marginTop: spacing.md },
+  emptyText: { color: colors.muted, textAlign: 'center', lineHeight: 20, marginTop: spacing.sm },
+  emptyButton: { marginTop: spacing.xl, alignSelf: 'stretch' },
+  list: { gap: spacing.md, marginBottom: spacing.lg },
+  item: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.md,
+    backgroundColor: colors.surface,
+    padding: spacing.md,
+    borderRadius: radii.lg,
+    borderWidth: 1,
+    borderColor: '#1B2150',
+  },
+  thumb: {
+    width: 58,
+    height: 66,
+    borderRadius: radii.md,
+    backgroundColor: '#0E1330',
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflow: 'hidden',
+  },
+  itemCopy: { flex: 1 },
+  name: { color: colors.text, fontWeight: '800', fontSize: 13 },
+  sub: { color: colors.muted, fontSize: 11, marginTop: 4 },
+  price: { color: colors.text, fontWeight: '800', fontSize: 13, marginTop: 7 },
+  remove: {
+    width: 44,
+    height: 40,
+    borderRadius: radii.sm,
+    backgroundColor: colors.chip,
+    borderWidth: 1,
+    borderColor: '#1D2350',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  removeText: { color: colors.muted, fontSize: 20, lineHeight: 22 },
+  promo: {
+    height: 48,
+    borderRadius: radii.md,
+    backgroundColor: colors.surface,
+    borderWidth: 1,
+    borderColor: '#242B58',
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: spacing.lg,
+    marginBottom: spacing.lg,
+  },
+  promoInput: { flex: 1, color: colors.text, fontSize: 13, fontWeight: '700' },
+  promoApply: { color: colors.accent, fontSize: 12, fontWeight: '800' },
+  summary: { gap: spacing.md, marginBottom: spacing.lg },
+  row: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  rowLabel: { color: colors.muted, fontSize: 13 },
+  rowValue: { color: colors.text, fontSize: 13, fontWeight: '700' },
+  strongLabel: { color: colors.text, fontSize: 15, fontWeight: '800' },
+  strong: { color: colors.text, fontSize: 17, fontWeight: '900' },
+  divider: { borderTopWidth: 1, borderTopColor: '#171C3F' },
+  clear: { alignItems: 'center', padding: spacing.lg },
+  clearText: { color: colors.muted, fontSize: 12 },
+});

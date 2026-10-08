@@ -1,12 +1,149 @@
 import React from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { colors, radii, spacing } from '../constants/theme';
-import { products } from '../data/mockData';
-import { Button, Card, Header, Screen, SectionTitle, formatMoney } from '../components/ui/Common';
+import { clubs, orders, products } from '../data/mockData';
+import { Button, Header, Screen, SectionTitle } from '../components/ui/Common';
 import { JerseyPreview } from '../components/ui/JerseyPreview';
-import { ProductCard } from '../components/ui/ProductCard';
 
 export default function HomeScreen({ t, onNavigate, onProduct }) {
-  return <Screen><Header title={t('greeting')} subtitle={t('greetingSub')} /><View style={styles.hero}><Text style={styles.kicker}>FORMO STUDIO · 01</Text><Text style={styles.heroTitle}>{t('greeting')}</Text><Text style={styles.heroText}>{t('greetingSub')}</Text><Button onPress={() => onNavigate('studio')} style={styles.heroButton}>{t('startDesign')} →</Button><View style={styles.heroJersey}><JerseyPreview product={products[0]} number="7" /></View></View><SectionTitle eyebrow={t('collection')} title={t('popular')} action={t('all')} onAction={() => onNavigate('catalog')} /><View style={styles.grid}>{products.slice(0, 2).map((item) => <ProductCard key={item.id} product={item} onPress={() => onProduct(item)} />)}</View><Card style={styles.info}><Text style={styles.infoIcon}>✦</Text><View style={{ flex: 1 }}><Text style={styles.infoTitle}>Harakat uchun yaratilgan</Text><Text style={styles.infoText}>Nafas oluvchi mato, aniq bichim va O‘zbekiston bo‘ylab yetkazib berish.</Text></View></Card></Screen>;
+  const order = orders[0];
+  const orderStatus = order.status === 'production' ? t('production') : t('delivered');
+  const openClub = (club) => {
+    const product = products.find((item) => item.id === club.product);
+    if (product) onProduct(product);
+  };
+  return (
+    <Screen>
+      <Header overline={t('goodDay')} title={t('hello')} right={<View style={styles.avatar} />} />
+
+      <View style={styles.hero}>
+        <View style={styles.heroCopy}>
+          <Text style={styles.heroTitle}>{t('heroTitle')}</Text>
+          <Text style={styles.heroText}>{t('heroSub')}</Text>
+          <Button small onPress={() => onNavigate('studio')} style={styles.heroButton}>{t('startShort')}</Button>
+        </View>
+        <View style={styles.heroJersey}>
+          <JerseyPreview product={products[0]} number="10" />
+        </View>
+      </View>
+
+      <Pressable style={styles.track} onPress={() => onNavigate('orders')}>
+        <View style={styles.trackCopy}>
+          <Text style={styles.trackId}>{order.id}</Text>
+          <Text style={styles.trackStatus}>{orderStatus}</Text>
+        </View>
+        <Text style={styles.trackAction}>{t('track')}</Text>
+      </Pressable>
+
+      <Pressable style={styles.kitCard} onPress={() => onNavigate('catalog')}>
+        <Text style={styles.kitTitle}>{t('clubKitTitle')}</Text>
+        <Text style={styles.kitSub}>{t('clubKitSub')}</Text>
+      </Pressable>
+
+      <SectionTitle title={t('popular')} action={t('all')} onAction={() => onNavigate('catalog')} />
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.clubRow}
+      >
+        {clubs.slice(0, 6).map((club) => (
+          <Pressable key={club.id} style={styles.clubTile} onPress={() => openClub(club)}>
+            <View style={[styles.crest, { backgroundColor: club.color, borderColor: club.accent }]}>
+              <Text style={[styles.crestCode, { color: club.accent }]}>{club.code}</Text>
+            </View>
+            <Text style={styles.clubName} numberOfLines={1}>{club.name}</Text>
+          </Pressable>
+        ))}
+      </ScrollView>
+
+      <View style={styles.stepsBlock}>
+        <SectionTitle title={t('howItWorks')} />
+        {[t('step1'), t('step2')].map((step, index) => (
+          <View key={step} style={styles.step}>
+            <Text style={styles.stepNum}>{index + 1}</Text>
+            <Text style={styles.stepText}>{step}</Text>
+          </View>
+        ))}
+      </View>
+    </Screen>
+  );
 }
-const styles = StyleSheet.create({ hero: { height: 325, borderRadius: radii.lg, backgroundColor: '#1B235B', padding: spacing.xl, overflow: 'hidden', marginBottom: spacing.xxxl }, kicker: { color: colors.success, fontSize: 10, fontWeight: '900', letterSpacing: 1 }, heroTitle: { color: colors.text, fontSize: 31, lineHeight: 35, fontWeight: '900', width: 210, marginTop: spacing.md }, heroText: { color: '#C4CCEF', width: 210, fontSize: 13, lineHeight: 19, marginTop: spacing.md }, heroButton: { alignSelf: 'flex-start', marginTop: spacing.lg }, heroJersey: { position: 'absolute', right: -10, bottom: -25, transform: [{ rotate: '12deg' }] }, grid: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: spacing.xl }, info: { flexDirection: 'row', gap: spacing.md, alignItems: 'center' }, infoIcon: { color: colors.accent, fontSize: 25 }, infoTitle: { color: colors.text, fontSize: 13, fontWeight: '900' }, infoText: { color: colors.muted, fontSize: 11, lineHeight: 16, marginTop: 4 } });
+
+const styles = StyleSheet.create({
+  avatar: {
+    width: 40,
+    height: 40,
+    borderRadius: radii.md,
+    backgroundColor: '#141A3E',
+    borderWidth: 1,
+    borderColor: '#232A57',
+  },
+  hero: {
+    backgroundColor: '#141A40',
+    borderRadius: radii.lg,
+    borderWidth: 1,
+    borderColor: '#1E2452',
+    padding: spacing.lg,
+    marginBottom: 14,
+    overflow: 'hidden',
+    minHeight: 156,
+  },
+  heroCopy: { width: 190 },
+  heroTitle: { color: colors.text, fontSize: 19, lineHeight: 24, fontWeight: '800' },
+  heroText: { color: '#9AA2C6', fontSize: 11, lineHeight: 16, marginTop: spacing.sm },
+  heroButton: { alignSelf: 'flex-start', marginTop: spacing.md },
+  heroJersey: { position: 'absolute', right: -6, bottom: 6, transform: [{ rotate: '6deg' }] },
+  track: {
+    backgroundColor: colors.surface,
+    borderRadius: radii.lg,
+    borderWidth: 1,
+    borderColor: '#1B2150',
+    padding: spacing.lg,
+    marginBottom: 14,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  trackCopy: { flex: 1 },
+  trackId: { color: colors.text, fontSize: 13, fontWeight: '800' },
+  trackStatus: { color: colors.muted, fontSize: 11, marginTop: 4 },
+  trackAction: { color: colors.accent, fontSize: 12, fontWeight: '800' },
+  kitCard: {
+    backgroundColor: '#141A40',
+    borderRadius: radii.lg,
+    borderWidth: 1,
+    borderColor: '#1E2452',
+    padding: spacing.lg,
+    marginBottom: spacing.xl,
+  },
+  kitTitle: { color: colors.text, fontSize: 16, fontWeight: '800' },
+  kitSub: { color: colors.muted, fontSize: 11, marginTop: 4 },
+  clubRow: { gap: 14, paddingRight: spacing.sm, paddingBottom: spacing.xs },
+  clubTile: { width: 74, alignItems: 'center' },
+  crest: {
+    width: 52,
+    height: 62,
+    borderRadius: 10,
+    borderBottomLeftRadius: 24,
+    borderBottomRightRadius: 24,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1.5,
+  },
+  crestCode: { fontSize: 14, fontWeight: '900' },
+  clubName: { color: '#B9C0E0', fontSize: 10, marginTop: 6, textAlign: 'center', width: 74 },
+  stepsBlock: { marginTop: spacing.xl },
+  step: { flexDirection: 'row', alignItems: 'center', gap: spacing.md, paddingVertical: 7 },
+  stepNum: {
+    width: 26,
+    height: 26,
+    borderRadius: 8,
+    backgroundColor: '#171E4B',
+    color: colors.accent,
+    fontSize: 13,
+    fontWeight: '900',
+    textAlign: 'center',
+    lineHeight: 26,
+    overflow: 'hidden',
+  },
+  stepText: { flex: 1, color: '#D5DAF2', fontSize: 13 },
+});
