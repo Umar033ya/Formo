@@ -44,6 +44,13 @@ lerna-debug.log*
 
 # OS
 Thumbs.db
+desktop.ini
+
+# AI vositalari keshi
+.manus/
+
+# Backend pnpm bilan boshqariladi (pnpm-lock.yaml) — npm lockfile kerak emas
+backend/package-lock.json
 
 # Prisma
 prisma/migrations/
