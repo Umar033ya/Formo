@@ -5,10 +5,31 @@ export const products = [
   { id: 'junior', name: 'FORMO JUNIOR', category: 'kids', price: 199000, color: '#62B6AE', accent: '#102B48', badge: 'kids' },
 ];
 
+export const clubs = [
+  { id: 'real', name: 'Real Madrid', league: 'LaLiga', forms: 3, season: '2026/27', code: 'RM', color: '#EBEDF6', accent: '#7681CF', product: 'away' },
+  { id: 'barca', name: 'FC Barcelona', league: 'LaLiga', forms: 3, season: '2026/27', code: 'FCB', color: '#2B2E7A', accent: '#F5C542', product: 'home' },
+  { id: 'united', name: 'Manchester United', league: 'Premier Liga', forms: 3, season: '2026/27', code: 'MU', color: '#C4272E', accent: '#FFFFFF', product: 'street' },
+  { id: 'bayern', name: 'Bayern München', league: 'Bundesliga', forms: 3, season: '2026/27', code: 'BM', color: '#D62839', accent: '#FFFFFF', product: 'junior' },
+  { id: 'juventus', name: 'Juventus', league: 'Serie A', forms: 3, season: '2026/27', code: 'JU', color: '#1B1F45', accent: '#FFFFFF', product: 'away' },
+  { id: 'liverpool', name: 'Liverpool', league: 'Premier League', forms: 3, season: '2026/27', code: 'LI', color: '#B01E32', accent: '#F6D67B', product: 'street' },
+  { id: 'psg', name: 'PSG', league: 'Ligue 1', forms: 3, season: '2026/27', code: 'PS', color: '#123B6B', accent: '#E8543F', product: 'home' },
+];
+
 export const orders = [
   { id: '#FM-2408', product: 'FORMO HOME', size: 'L', date: '24.08.2024', total: 349000, status: 'production' },
   { id: '#FM-1932', product: 'FORMO STREET', size: 'M', date: '12.07.2024', total: 279000, status: 'delivered' },
 ];
 
-export const profile = { name: 'Azizbek Karimov', phone: '+998 90 123 45 67', city: 'Toshkent' };
-export const colorOptions = ['#5A66DE', '#EBEDF6', '#F5A55E', '#62B6AE', '#242749'];
+export const profile = {
+  name: 'Azizbek Karimov',
+  phone: '+998 90 123 45 67',
+  city: 'Toshkent',
+  stats: [
+    { value: '25', label: 'yosh' },
+    { value: '178', label: 'bo‘y, sm' },
+    { value: '76', label: 'vazn, kg' },
+    { value: 'L', label: 'o‘lcham' },
+  ],
+};
+
+export const colorOptions = ['#FFFFFF', '#242749', '#5A66DE', '#62B6AE', '#F5C542', '#E8543F', '#3A3F7A', '#3FD9B7', '#EBEDF6'];
