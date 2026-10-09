@@ -3,14 +3,18 @@ import { User, Clock, Bell, Globe, Edit3, ShieldCheck, Phone, Check } from 'luci
 import Card from './ui/Card';
 import Toggle from './ui/Toggle';
 import EmployeeModal from './EmployeeModal';
+import { useAuth } from '../../hooks/useAuth';
+import { initialsOf, prettyPhone } from './utils';
 
+// Ism, telefon va sex nomi bazadagi akkauntdan olinadi (buildProfile).
+// Smena, til va bildirishnomalar uchun backend hali yo'q — lokal qiymatlar.
 const INITIAL_PROFILE = {
   id: 1,
-  name: 'Aziz Karimov',
-  initials: 'AK',
-  role: 'Smena boshlig\'i',
-  factory: 'Chilonzor',
-  phone: '+998 90 123 45 67',
+  name: '',
+  initials: '',
+  role: "Mas'ul shaxs",
+  factory: '',
+  phone: '',
   shiftStart: '09:00',
   shiftEnd: '18:00',
   language: "O'zbekcha",
@@ -18,8 +22,30 @@ const INITIAL_PROFILE = {
   notifications: { push: true, sms: true, email: true },
 };
 
+const buildProfile = (user) => ({
+  ...INITIAL_PROFILE,
+  id: user?.id ?? INITIAL_PROFILE.id,
+  name: user?.fullName ?? '',
+  initials: initialsOf(user?.fullName),
+  factory: user?.workshopName ?? '',
+  phone: prettyPhone(user?.phone),
+});
+
 export default function Profile() {
-  const [profile, setProfile] = useState(INITIAL_PROFILE);
+  const { user } = useAuth();
+  const [profile, setProfile] = useState(() => buildProfile(user));
+
+  // /auth/me dan yangilangan ma'lumot kelsa — profilni yangilaymiz
+  useEffect(() => {
+    if (!user) return;
+    setProfile((prev) => ({
+      ...prev,
+      name: user.fullName,
+      initials: initialsOf(user.fullName),
+      factory: user.workshopName ?? '',
+      phone: prettyPhone(user.phone),
+    }));
+  }, [user]);
   const [modalOpen, setModalOpen] = useState(false);
   const [toastMsg, setToastMsg] = useState('');
 
@@ -30,6 +56,10 @@ export default function Profile() {
     } else {
       document.body.style.backgroundColor = '#0b0f19';
     }
+    // Sahifadan chiqqanda fonni qaytaramiz (aks holda boshqa sahifalarga ham o'tib qoladi)
+    return () => {
+      document.body.style.backgroundColor = '';
+    };
   }, [profile.language]);
 
   const showToast = (msg) => {
@@ -90,7 +120,7 @@ export default function Profile() {
                 </span>
               </div>
               <p className="mt-0.5 text-xs font-semibold text-slate-400">
-                {isRu ? 'Начальник смены' : profile.role} · {profile.factory} {isRu ? 'печатный цех' : 'bosma sexi'}
+                {isRu ? 'Ответственное лицо' : profile.role}{profile.factory && ` · ${profile.factory}`}
               </p>
             </div>
           </div>

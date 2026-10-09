@@ -2,7 +2,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { Boxes, ClipboardList, Layers, LogOut, Settings2, BarChart3, MessageSquare } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 import FormoLogo from './ui/FormoLogo';
-import { cx } from './utils';
+import { cx, initialsOf } from './utils';
 
 const NAV_ITEMS = [
   { to: '/tailor', label: 'Bugungi navbat', icon: ClipboardList, badge: 8, end: true },
@@ -27,8 +27,9 @@ function SidebarContent({ onNavigate }) {
   };
 
   const percent = Math.round((SHIFT_DONE / SHIFT_TOTAL) * 100);
-  const fullName = user?.fullName ?? 'Aziz Karimov';
-  const roleName = "Smena boshlig'i";
+  // Bazadagi tikuv sexi akkaunti: mas'ul shaxs va sex nomi
+  const fullName = user?.fullName ?? 'Tikuv sexi';
+  const roleName = user?.workshopName ?? "Mas'ul shaxs";
 
   return (
     <div className="flex h-full flex-col gap-4 border-r border-white/10 bg-[#0b0f19] p-4 text-slate-200">
@@ -85,7 +86,7 @@ function SidebarContent({ onNavigate }) {
       <div className="flex items-center justify-between rounded-2xl border border-white/10 bg-[#121829] p-3">
         <div className="flex min-w-0 items-center gap-3">
           <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-teal-500/20 text-xs font-black text-teal-300 ring-1 ring-inset ring-teal-500/40">
-            AK
+            {initialsOf(fullName)}
           </span>
           <div className="min-w-0 flex-1">
             <p className="truncate text-xs font-bold text-white">{fullName}</p>

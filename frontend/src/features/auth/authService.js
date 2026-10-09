@@ -28,3 +28,9 @@ export async function logout() {
   if (USE_MOCK) return;
   await api('/auth/logout', { method: 'POST' }).catch(() => {});
 }
+
+/** Joriy foydalanuvchi bazadan (mock rejimida — null) */
+export function fetchMe() {
+  if (USE_MOCK) return Promise.resolve(null);
+  return api('/auth/me');
+}
