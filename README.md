@@ -2,6 +2,38 @@
 
 Monorepo for the FORMО custom tailoring platform MVP.
 
+## Tez ishga tushirish (Docker)
+
+Faqat [Docker Desktop](https://www.docker.com/products/docker-desktop/) kerak — Node, pnpm, Postgres yoki `.env` shart emas.
+
+```bash
+git clone https://github.com/Umar033ya/Formo.git
+cd Formo
+docker compose up --build
+```
+
+| Xizmat | Manzil |
+|---|---|
+| Frontend (panel) | http://localhost:5173 |
+| Backend API | http://localhost:3001/api |
+| Swagger | http://localhost:3001/api/docs |
+| Postgres | `localhost:5435` · `formo` / `formo` |
+
+Superadmin avtomatik yaratiladi: **+998 90 111 11 11** / **admin123**. Operator va tikuv sexi akkauntlarini superadmin paneldan yaratadi.
+
+| Buyruq | Nima qiladi |
+|---|---|
+| `docker compose up --build` | Hammasini ko'taradi (birinchi marta ~2-3 daqiqa) |
+| `docker compose up -d` | Fonda ishga tushiradi |
+| `docker compose down` | To'xtatadi (baza saqlanib qoladi) |
+| `docker compose down -v` | To'xtatadi va bazani **o'chiradi** |
+| `docker compose logs -f backend` | Backend loglari |
+| `docker compose exec backend pnpm test:e2e` | E2e testlar |
+
+`backend/src`, `frontend/src` dagi o'zgarishlar konteynerda avtomatik qayta yuklanadi. `package.json` ga yangi paket qo'shilsa — `docker compose up --build`.
+
+Sozlamalarni o'zgartirish (ixtiyoriy): ildizda `.env` yarating, masalan `SUPERADMIN_PASSWORD=...` yoki port band bo'lsa `FORMO_WEB_PORT=5174`, `FORMO_API_PORT=3002`, `FORMO_DB_PORT=5436`.
+
 ## Architecture
 
 pnpm + Turborepo monorepo. This is a structure-only skeleton — no business logic is implemented yet.
