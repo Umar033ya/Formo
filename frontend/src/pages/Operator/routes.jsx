@@ -13,5 +13,5 @@ export const operatorRoutes = [
 export const operatorMenu = [
   { to: BASE, label: 'Dashboard', end: true },
   { to: `${BASE}/orders`, label: 'Buyurtmalar' },
-  { to: `${BASE}/factories`, label: 'Tikuvxonalar' },
+  { to: `${BASE}/factories`, label: 'Tikuv sexlari' },
 ];

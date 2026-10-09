@@ -1,9 +1,46 @@
+:root {
+  --ink: #080c24;
+  --navy: #0e1a3f;
+  --navy-2: #121a42;
+  --navy-3: #1b2560;
+  --orange: #f2a33a;
+  --orange-2: #f7c27a;
+  --teal: #19a7a1;
+  --violet: #9184d9;
+  --red: #b8323f;
+  --paper: #f3f5f9;
+  --muted: #a9b0d0;
+  --line: #d5dae8;
+  --font-display: 'Unbounded', system-ui, sans-serif;
+  --font-body: 'Onest', system-ui, sans-serif;
+  --font-number: 'Saira Extra Condensed', 'Onest', sans-serif;
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+body {
+  font-family: var(--font-body);
+  background: var(--ink);
+  color: var(--paper);
+  -webkit-font-smoothing: antialiased;
+}
+
 #root {
   min-height: 100vh;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--orange);
+  outline-offset: 2px;
 }

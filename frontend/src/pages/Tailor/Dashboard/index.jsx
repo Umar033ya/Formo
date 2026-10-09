@@ -1,3 +1,3 @@
 export default function TailorDashboard() {
-  return <h2>Tikuvxona Dashboard</h2>;
+  return <h2>Tikuv sexi Dashboard</h2>;
 }

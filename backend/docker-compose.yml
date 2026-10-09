@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: formo-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: formo
+      POSTGRES_PASSWORD: formo
+      POSTGRES_DB: formo
+    ports:
+      - '127.0.0.1:${FORMO_DB_PORT:-5435}:5432'
+    volumes:
+      - formo_pgdata:/var/lib/postgresql/data
+
+volumes:
+  formo_pgdata:
