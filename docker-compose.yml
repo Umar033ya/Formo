@@ -38,7 +38,8 @@ services:
       DATABASE_URL: postgresql://formo:formo@postgres:5432/formo?schema=public
       # `docker compose exec backend pnpm test:e2e` — testlar alohida bazada yuradi
       TEST_DATABASE_URL: postgresql://formo:formo@postgres:5432/formo_test?schema=public
-      FRONTEND_URL: http://localhost:5173
+      # Web panel + Expo web (mobil ilovaning brauzer versiyasi)
+      FRONTEND_URL: http://localhost:5173,http://localhost:8081,http://localhost:19006
       JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET:-formo-dev-only-secret-change-in-production}
       JWT_ACCESS_EXPIRES_IN: ${JWT_ACCESS_EXPIRES_IN:-15m}
       REFRESH_TOKEN_TTL_DAYS: ${REFRESH_TOKEN_TTL_DAYS:-30}
@@ -46,7 +47,9 @@ services:
       SUPERADMIN_PASSWORD: ${SUPERADMIN_PASSWORD:-admin123}
       SUPERADMIN_NAME: ${SUPERADMIN_NAME:-Super Admin}
     ports:
-      - '127.0.0.1:${FORMO_API_PORT:-3001}:3001'
+      # 0.0.0.0 — telefondagi Expo ilova Wi-Fi orqali ulana olishi uchun.
+      # Faqat shu kompyuterdan ochiq qolsin desangiz: FORMO_API_HOST=127.0.0.1
+      - '${FORMO_API_HOST:-0.0.0.0}:${FORMO_API_PORT:-3001}:3001'
     volumes:
       # Kod o'zgarsa server avtomatik qayta ishga tushadi
       - ./backend/src:/app/backend/src
