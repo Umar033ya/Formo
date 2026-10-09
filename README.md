@@ -32,6 +32,18 @@ Superadmin avtomatik yaratiladi: **+998 90 111 11 11** / **admin123**. Operator 
 
 `backend/src`, `frontend/src` dagi o'zgarishlar konteynerda avtomatik qayta yuklanadi. `package.json` ga yangi paket qo'shilsa — `docker compose up --build`.
 
+### Mobil ilova (Expo) backendga ulanishi
+
+Mobil ilova Docker'da emas — `mobile/` da Expo bilan alohida ishga tushadi va Wi-Fi orqali kompyuterdagi backendga ulanadi.
+
+1. Kompyuterda `docker compose up` ishlab tursin.
+2. Kompyuterning Wi-Fi IP manzilini bilib oling: macOS `ipconfig getifaddr en0`, Windows `ipconfig` → "IPv4 Address".
+3. `mobile/.env` yarating (`mobile/.env.example` dan nusxa) va IP ni yozing: `EXPO_PUBLIC_API_URL=http://192.168.1.10:3001/api`
+4. `cd mobile && npm install && npx expo start --clear` — telefon va kompyuter **bitta Wi-Fi'da** bo'lsin.
+5. Brauzerda telefondan `http://<IP>:3001/api/docs` ochilsa — ulanish bor. Ochilmasa, kompyuter firewall'i 3001-portni bloklayapti.
+
+Kodda: `import { auth, api } from './services/api'` → `auth.register(...)`, `auth.login(...)`, `auth.logout()`, `auth.me()`.
+
 > **Production:** yuqoridagi parol va JWT secret faqat dev uchun. `NODE_ENV=production` da backend repodagi dev qiymatlari (`admin123`, dev JWT secret) yoki qisqa qiymatlar bilan **ishga tushmaydi** — `JWT_ACCESS_SECRET` (kamida 32 belgi, `openssl rand -hex 32`) va `SUPERADMIN_PASSWORD` (kamida 10 belgi) ni o'zingiz bering.
 
 Sozlamalarni o'zgartirish (ixtiyoriy): ildizda `.env` yarating, masalan `SUPERADMIN_PASSWORD=...` yoki port band bo'lsa `FORMO_WEB_PORT=5174`, `FORMO_API_PORT=3002`, `FORMO_DB_PORT=5436`.
