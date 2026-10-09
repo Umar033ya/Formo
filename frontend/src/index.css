@@ -18,8 +18,9 @@
 
 * {
   margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+  font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background: #f3f4f6;
 }
 
 body {
