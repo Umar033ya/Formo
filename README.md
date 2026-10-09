@@ -32,6 +32,8 @@ Superadmin avtomatik yaratiladi: **+998 90 111 11 11** / **admin123**. Operator 
 
 `backend/src`, `frontend/src` dagi o'zgarishlar konteynerda avtomatik qayta yuklanadi. `package.json` ga yangi paket qo'shilsa — `docker compose up --build`.
 
+> **Production:** yuqoridagi parol va JWT secret faqat dev uchun. `NODE_ENV=production` da backend repodagi dev qiymatlari (`admin123`, dev JWT secret) yoki qisqa qiymatlar bilan **ishga tushmaydi** — `JWT_ACCESS_SECRET` (kamida 32 belgi, `openssl rand -hex 32`) va `SUPERADMIN_PASSWORD` (kamida 10 belgi) ni o'zingiz bering.
+
 Sozlamalarni o'zgartirish (ixtiyoriy): ildizda `.env` yarating, masalan `SUPERADMIN_PASSWORD=...` yoki port band bo'lsa `FORMO_WEB_PORT=5174`, `FORMO_API_PORT=3002`, `FORMO_DB_PORT=5436`.
 
 ## Architecture
