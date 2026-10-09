@@ -20,8 +20,9 @@ function SidebarContent({ onNavigate }) {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    if (logout) logout();
+  const handleLogout = async () => {
+    // serverdagi sessiya yopilguncha kutamiz, aks holda /login dan qaytib sakraydi
+    if (logout) await logout();
     navigate('/login', { replace: true });
   };
 

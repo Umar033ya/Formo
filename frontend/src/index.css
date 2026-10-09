@@ -1,3 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Formo brend tokenlari (login va panel layouti) */
 :root {
   --ink: #080c24;
   --navy: #0e1a3f;
@@ -16,29 +23,34 @@
   --font-number: 'Saira Extra Condensed', 'Onest', sans-serif;
 }
 
-* {
+body {
   margin: 0;
   font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
   -webkit-font-smoothing: antialiased;
   background: #f3f4f6;
 }
 
-body {
-  font-family: var(--font-body);
-  background: var(--ink);
-  color: var(--paper);
-  -webkit-font-smoothing: antialiased;
-}
-
 #root {
   min-height: 100vh;
 }
 
-button,
-input,
-select,
-textarea {
-  font: inherit;
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #334155 transparent;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
 }
 
 :focus-visible {

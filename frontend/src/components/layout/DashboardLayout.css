@@ -2,6 +2,7 @@
   display: flex;
   min-height: 100vh;
   background: #f3f5f9;
+  font-family: var(--font-body);
 }
 
 .layout__sidebar {
