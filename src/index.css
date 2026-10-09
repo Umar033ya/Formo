@@ -1,9 +1,17 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+/* Tailwind: preflight ulanmagan, mavjud sahifalar ko'rinishi o'zgarmasligi uchun */
+@layer theme, base, components, utilities;
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/utilities.css' layer(utilities);
 
-#root {
-  min-height: 100vh;
+/* Qatlam ichida — aks holda Tailwind utilitalarini (p-*, m-*) bosib ketadi */
+@layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  #root {
+    min-height: 100vh;
+  }
 }
