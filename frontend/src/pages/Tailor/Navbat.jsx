@@ -1,9 +1,9 @@
 import { useMemo, useState } from 'react';
 import OrderDetail from './OrderDetail';
 import QueueList from './QueueList';
-import { queueOrders as initialOrders } from '../data/mockData';
+import { queueOrders as initialOrders } from './mockData';
 
-export default function Dashboard() {
+export default function Navbat() {
   const [orders, setOrders] = useState(initialOrders);
   const [query, setQuery] = useState('');
   const [tab, setTab] = useState('barchasi');
