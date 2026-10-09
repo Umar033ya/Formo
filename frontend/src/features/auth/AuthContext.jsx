@@ -1,12 +1,29 @@
 import { createContext, useCallback, useEffect, useMemo, useState } from 'react';
 import { ROLE_HOME } from '../../constants/roles';
 import { session, SESSION_EXPIRED_EVENT } from '../../services/session';
-import { login as loginRequest, logout as logoutRequest } from './authService';
+import { fetchMe, login as loginRequest, logout as logoutRequest } from './authService';
 
 export const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(() => (session.accessToken ? session.user : null));
+
+  // Sahifa ochilganda ma'lumotni bazadan yangilaymiz: superadmin ism/sex nomini
+  // o'zgartirgan bo'lsa ham panelda darhol to'g'ri ko'rinadi
+  useEffect(() => {
+    if (!session.accessToken) return;
+    let cancelled = false;
+    fetchMe()
+      .then((fresh) => {
+        if (cancelled || !fresh) return;
+        session.save({ accessToken: session.accessToken, refreshToken: session.refreshToken, user: fresh });
+        setUser(fresh);
+      })
+      .catch(() => {}); // 401 bo'lsa api.js sessiyani o'zi tugatadi
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   // Refresh token ham o'tmay qolsa — avtomatik chiqarib yuboramiz
   useEffect(() => {
