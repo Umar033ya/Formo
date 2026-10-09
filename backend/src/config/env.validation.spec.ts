@@ -1,10 +1,13 @@
+import { randomBytes } from 'crypto';
 import { validateEnv } from './env.validation';
 
-const STRONG_SECRET = 'a'.repeat(16) + 'B7#kq9Zx2mP4vL8w';
+// Test qiymatlari har safar generatsiya qilinadi (repoda parolga o'xshash literal bo'lmasin)
+const STRONG_SECRET = randomBytes(32).toString('hex');
+const STRONG_PASSWORD = randomBytes(12).toString('hex');
 const prod = (extra: Record<string, string> = {}) => ({
   NODE_ENV: 'production',
   JWT_ACCESS_SECRET: STRONG_SECRET,
-  SUPERADMIN_PASSWORD: 'Kuchli-Parol-2026',
+  SUPERADMIN_PASSWORD: STRONG_PASSWORD,
   ...extra,
 });
 
@@ -38,7 +41,7 @@ describe('validateEnv', () => {
     );
 
     it('qisqa JWT secret rad etiladi', () => {
-      expect(() => validateEnv(prod({ JWT_ACCESS_SECRET: 'short-secret' }))).toThrow(/kamida 32/);
+      expect(() => validateEnv(prod({ JWT_ACCESS_SECRET: STRONG_SECRET.slice(0, 12) }))).toThrow(/kamida 32/);
     });
 
     it.each(['admin123', 'ADMIN123', 'operator123', 'tailor123'])('repodagi superadmin paroli rad etiladi: %s', (pw) => {
@@ -46,7 +49,7 @@ describe('validateEnv', () => {
     });
 
     it('qisqa superadmin paroli rad etiladi', () => {
-      expect(() => validateEnv(prod({ SUPERADMIN_PASSWORD: 'Ab1!xyz' }))).toThrow(/kamida 10/);
+      expect(() => validateEnv(prod({ SUPERADMIN_PASSWORD: STRONG_PASSWORD.slice(0, 7) }))).toThrow(/kamida 10/);
     });
 
     it('superadmin allaqachon yaratilgan bo‘lsa, SUPERADMIN_PASSWORD bermaslik mumkin', () => {
