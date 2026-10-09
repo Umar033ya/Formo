@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { X, User, Phone, Clock, Globe, ShieldCheck, Check, Upload } from 'lucide-react';
 
 const ROLES = ['Bosma operatori', 'Smena boshlig\'i', 'Dizayner', 'Administrator', 'Tikuvchi'];
@@ -6,6 +6,8 @@ const FACTORIES = ['Chilonzor', 'Yakkasaroy', 'Sergeli'];
 const LANGUAGES = ["O'zbekcha", 'Русский'];
 
 export default function EmployeeModal({ open, employee, onClose, onSave }) {
+  const photoRef = useRef(null);
+  const [photoName, setPhotoName] = useState('');
   const [form, setForm] = useState({
     id: null,
     name: '',
@@ -66,12 +68,20 @@ export default function EmployeeModal({ open, employee, onClose, onSave }) {
               </div>
               <div>
                 <span className="block text-xs font-extrabold text-white">Profil rasmi</span>
+                <input
+                  ref={photoRef}
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={(e) => setPhotoName(e.target.files?.[0]?.name ?? '')}
+                />
                 <button
                   type="button"
+                  onClick={() => photoRef.current?.click()}
                   className="mt-1 flex items-center gap-1.5 text-xs font-bold text-teal-400 hover:underline"
                 >
                   <Upload className="h-3.5 w-3.5" />
-                  Rasm yuklash
+                  {photoName || 'Rasm yuklash'}
                 </button>
               </div>
             </div>

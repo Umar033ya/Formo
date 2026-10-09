@@ -1,9 +1,11 @@
-import Batches from './Batches';
-import Dashboard from './Dashboard';
 import Brak from './Brak';
-import Profile from './Profile';
+import Chat from './Chat';
+import Navbat from './Navbat';
+import Partiyalar from './Partiyalar';
+import Profil from './Profil';
+import Statistika from './Statistika';
 import Zaxira from './Zaxira';
-import TailorShell from './layout/TailorShell';
+import TailorShell from './TailorShell';
 
 const BASE = '/tailor';
 
@@ -16,15 +18,23 @@ const shell = (title, subtitle, element) => (
 export const tailorRoutes = [
   {
     path: '',
-    element: shell('Bugungi navbat', "Bugungi buyurtmalar va bosma navbati", <Dashboard />),
+    element: shell('Bugungi navbat', 'Bugungi buyurtmalar va bosma navbati', <Navbat />),
   },
   {
     path: 'partiyalar',
-    element: shell('Partiyalar', 'Model bo\'yicha bosma partiyalari', <Batches />),
+    element: shell('Partiyalar', "Model bo'yicha bosma partiyalari", <Partiyalar />),
   },
   {
     path: 'zaxira',
-    element: shell('Zaxira', 'Mato va material qoldig\'i', <Zaxira />),
+    element: shell('Zaxira', "Mato va material qoldig'i", <Zaxira />),
+  },
+  {
+    path: 'statistika',
+    element: shell('Statistika', 'Sex samaradorligi va bosma hisoboti', <Statistika />),
+  },
+  {
+    path: 'chat',
+    element: shell('Operator bilan chat', "Operator va smena boshlig'i muloqoti", <Chat />),
   },
   {
     path: 'brak',
@@ -32,7 +42,7 @@ export const tailorRoutes = [
   },
   {
     path: 'profil',
-    element: shell('Profil va sozlamalar', 'Xodimlar va shaxsiy sozlamalar', <Profile />),
+    element: shell('Profil va sozlamalar', 'Xodimlar va shaxsiy sozlamalar', <Profil />),
   },
 ];
 
@@ -40,5 +50,7 @@ export const tailorMenu = [
   { to: BASE, label: 'Bugungi navbat', end: true },
   { to: `${BASE}/partiyalar`, label: 'Partiyalar' },
   { to: `${BASE}/zaxira`, label: 'Zaxira' },
+  { to: `${BASE}/statistika`, label: 'Statistika' },
+  { to: `${BASE}/chat`, label: 'Chat' },
   { to: `${BASE}/profil`, label: 'Profil va sozlamalar' },
 ];

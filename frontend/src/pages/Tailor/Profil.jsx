@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { User, Clock, Bell, Globe, Edit3, ShieldCheck, Phone, Check } from 'lucide-react';
-import Card from '../components/Card';
-import Toggle from '../components/Toggle';
+import Card from './ui/Card';
+import Toggle from './ui/Toggle';
 import EmployeeModal from './EmployeeModal';
 
 const INITIAL_PROFILE = {

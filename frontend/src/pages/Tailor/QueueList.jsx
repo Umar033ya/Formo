@@ -1,6 +1,7 @@
 import { SlidersHorizontal, Clock, Search } from 'lucide-react';
-import Card from '../components/Card';
-import { cx } from '../utils';
+import { useState } from 'react';
+import Card from './ui/Card';
+import { cx } from './utils';
 
 const BADGE_STYLES = {
   YANGI: 'bg-emerald-500/20 text-emerald-400 ring-1 ring-emerald-500/40',
@@ -19,10 +20,13 @@ export default function QueueList({
   onSelect,
   className,
 }) {
+  const [filterOpen, setFilterOpen] = useState(false);
+
   const tabs = [
     { key: 'barchasi', label: 'Barchasi' },
     { key: 'yangi', label: 'Yangi' },
     { key: 'bosmada', label: 'Bosmada' },
+    { key: 'tayyor', label: 'Tayyor' },
   ];
 
   return (
@@ -37,11 +41,33 @@ export default function QueueList({
           <button
             type="button"
             aria-label="Filtr"
+            onClick={() => setFilterOpen((v) => !v)}
             className="flex h-9 w-9 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-slate-300 hover:bg-white/10"
           >
             <SlidersHorizontal className="h-4 w-4" />
           </button>
         </div>
+
+        {filterOpen && (
+          <div className="mt-3 rounded-xl border border-white/10 bg-[#0e1424] p-3">
+            <p className="text-[10px] font-bold uppercase tracking-wider text-slate-500">Holat bo‘yicha</p>
+            <div className="mt-2 flex flex-wrap gap-1.5">
+              {tabs.map((tab) => (
+                <button
+                  key={`f-${tab.key}`}
+                  type="button"
+                  onClick={() => onTabChange(tab.key)}
+                  className={cx(
+                    'rounded-lg px-2.5 py-1 text-[10px] font-bold',
+                    activeTab === tab.key ? 'bg-teal-400 text-slate-950' : 'bg-white/5 text-slate-400'
+                  )}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Search Input */}
         <div className="relative mt-3">

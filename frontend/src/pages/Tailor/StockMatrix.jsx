@@ -1,6 +1,6 @@
-import Card from '../components/Card';
-import { STOCK_COLORS, STOCK_SIZES, stockMatrix as defaultMatrix } from '../data/mockData';
-import { cx } from '../utils';
+import Card from './ui/Card';
+import { STOCK_COLORS, STOCK_SIZES, stockMatrix as defaultMatrix } from './mockData';
+import { cx } from './utils';
 
 export function stockCellState(qty) {
   if (qty === 0) return { label: 'NOL', status: 'nol', bg: 'bg-rose-500/20 text-rose-400 border border-rose-500/40' };

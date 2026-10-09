@@ -1,8 +1,8 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import { Boxes, ClipboardList, Layers, LogOut, Settings2, BarChart3, MessageSquare } from 'lucide-react';
-import { useAuth } from '../../../hooks/useAuth';
-import FormoLogo from '../components/FormoLogo';
-import { cx } from '../utils';
+import { useAuth } from '../../hooks/useAuth';
+import FormoLogo from './ui/FormoLogo';
+import { cx } from './utils';
 
 const NAV_ITEMS = [
   { to: '/tailor', label: 'Bugungi navbat', icon: ClipboardList, badge: 8, end: true },
@@ -27,17 +27,15 @@ function SidebarContent({ onNavigate }) {
 
   const percent = Math.round((SHIFT_DONE / SHIFT_TOTAL) * 100);
   const fullName = user?.fullName ?? 'Aziz Karimov';
-  const roleName = 'Smena boshlig\'i';
+  const roleName = "Smena boshlig'i";
 
   return (
-    <div className="flex h-full flex-col gap-4 bg-[#0b0f19] p-4 text-slate-200 border-r border-white/10">
-      {/* Top Logo Component */}
+    <div className="flex h-full flex-col gap-4 border-r border-white/10 bg-[#0b0f19] p-4 text-slate-200">
       <div className="px-1 pt-1">
         <FormoLogo />
       </div>
 
-      {/* Navigation List */}
-      <nav className="flex flex-col gap-1 mt-2">
+      <nav className="mt-2 flex flex-col gap-1">
         {NAV_ITEMS.map(({ to, label, icon: Icon, badge, end }) => (
           <NavLink
             key={to}
@@ -53,7 +51,7 @@ function SidebarContent({ onNavigate }) {
               )
             }
           >
-            <div className="flex items-center gap-2.5 min-w-0">
+            <div className="flex min-w-0 items-center gap-2.5">
               <Icon className="h-4 w-4 shrink-0 text-teal-400" />
               <span className="truncate">{label}</span>
             </div>
@@ -66,10 +64,9 @@ function SidebarContent({ onNavigate }) {
         ))}
       </nav>
 
-      {/* Middle Widget: Bugungi smena */}
-      <div className="rounded-2xl border border-white/10 bg-[#121829] p-4 mt-auto">
+      <div className="mt-auto rounded-2xl border border-white/10 bg-[#121829] p-4">
         <div className="flex items-center gap-2">
-          <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+          <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-400" />
           <span className="text-xs font-semibold text-slate-300">Bugungi smena</span>
         </div>
         <p className="mt-2 text-2xl font-black text-white">
@@ -84,9 +81,8 @@ function SidebarContent({ onNavigate }) {
         <p className="mt-2 text-[11px] font-medium text-slate-400">6 ta buyurtma navbatda</p>
       </div>
 
-      {/* Bottom Profile Footer */}
       <div className="flex items-center justify-between rounded-2xl border border-white/10 bg-[#121829] p-3">
-        <div className="flex items-center gap-3 min-w-0">
+        <div className="flex min-w-0 items-center gap-3">
           <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-teal-500/20 text-xs font-black text-teal-300 ring-1 ring-inset ring-teal-500/40">
             AK
           </span>
@@ -123,7 +119,7 @@ export default function Sidebar({ open, onClose }) {
             className="absolute inset-0 h-full w-full cursor-default bg-black/65 backdrop-blur-sm"
             onClick={onClose}
           />
-          <div className="absolute inset-y-0 left-0 w-[280px] max-w-[85vw] overflow-y-auto animate-fade-in">
+          <div className="absolute inset-y-0 left-0 w-[280px] max-w-[85vw] animate-fade-in overflow-y-auto">
             <SidebarContent onNavigate={onClose} />
           </div>
         </div>

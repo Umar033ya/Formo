@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AlertTriangle, Move, Eye, Ruler, RefreshCw, Shirt, ArrowLeft, CheckCircle2 } from 'lucide-react';
-import Card from '../components/Card';
-import { cx } from '../utils';
+import Card from './ui/Card';
+import { cx } from './utils';
 
 export default function Brak() {
   const navigate = useNavigate();

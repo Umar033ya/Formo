@@ -1,5 +1,5 @@
 import { AlertCircle, AlertTriangle, FilePlus } from 'lucide-react';
-import Card from '../components/Card';
+import Card from './ui/Card';
 
 export default function StockAlerts({ onCreateDoc }) {
   return (

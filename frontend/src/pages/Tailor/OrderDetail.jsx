@@ -1,8 +1,9 @@
-import { Shirt, Clock, FileText, Image as ImageIcon, Play, CheckCircle } from 'lucide-react';
-import Card from '../components/Card';
-import JerseyPreview from '../components/JerseyPreview';
+import { useNavigate } from 'react-router-dom';
+import { Shirt, Clock, FileText, Image as ImageIcon, Play, CheckCircle, AlertTriangle } from 'lucide-react';
+import Card from './ui/Card';
+import JerseyPreview from './ui/JerseyPreview';
 import WorkflowTracker from './WorkflowTracker';
-import { cx } from '../utils';
+import { cx } from './utils';
 
 const BADGE_STYLES = {
   YANGI: 'bg-emerald-500/20 text-emerald-400 ring-1 ring-emerald-500/40',
@@ -11,6 +12,8 @@ const BADGE_STYLES = {
 };
 
 export default function OrderDetail({ order, onStartPress, onToast }) {
+  const navigate = useNavigate();
+
   if (!order) {
     return (
       <Card className="flex min-h-[400px] items-center justify-center p-8 text-center text-sm text-slate-400 bg-[#121829] border border-white/10">
@@ -36,7 +39,18 @@ export default function OrderDetail({ order, onStartPress, onToast }) {
   ];
 
   const handleDownload = (type) => {
-    if (onToast) onToast(`#F-${order.id} buyurtma ${type} fayli muvaffaqiyatli yuklab olindi!`);
+    const ext = type.toLowerCase();
+    const blob = new Blob(
+      [`Formo tikuv sex\nBuyurtma: ${order.id}\nMijoz: ${order.customer}\nFormat: ${type}\n`],
+      { type: 'text/plain;charset=utf-8' }
+    );
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${order.id}.${ext === 'png' ? 'txt' : 'txt'}`;
+    a.click();
+    URL.revokeObjectURL(url);
+    if (onToast) onToast(`#${order.id} buyurtma ${type} fayli yuklab olindi`);
   };
 
   return (
@@ -135,6 +149,14 @@ export default function OrderDetail({ order, onStartPress, onToast }) {
           >
             <ImageIcon className="h-4 w-4" />
             <span>PNG yuklash</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => navigate('/tailor/brak')}
+            className="flex items-center gap-2 rounded-xl border border-rose-500/30 bg-rose-500/10 px-4 py-2.5 text-xs font-bold text-rose-300 transition hover:bg-rose-500/20"
+          >
+            <AlertTriangle className="h-4 w-4" />
+            <span>Brak</span>
           </button>
         </div>
 

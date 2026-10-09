@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { Plus, X, Check, PackagePlus } from 'lucide-react';
 import StockMatrix from './StockMatrix';
 import StockAlerts from './StockAlerts';
-import { STOCK_COLORS, STOCK_SIZES, stockMatrix as initialMatrix } from '../data/mockData';
+import { STOCK_COLORS, STOCK_SIZES, stockMatrix as initialMatrix } from './mockData';
 
 export default function Zaxira() {
   const [modalOpen, setModalOpen] = useState(false);
