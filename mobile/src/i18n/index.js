@@ -1,0 +1,58 @@
+import { useCallback, useMemo } from 'react';
+
+const dictionaries = {
+  uz: {
+    languageName: 'O‘zbekcha', home: 'Asosiy', catalog: 'Katalog', studio: 'Studiya', orders: 'Buyurtmalar', profile: 'Profil', settings: 'Sozlamalar',
+    popular: 'Mashhur klublar', all: 'Barchasi', search: 'Modelni qidirish', football: 'Futbol', street: 'Street', kids: 'Bolalar',
+    customize: 'Moslashtirish', baseKit: 'ASOSIY KOMPLEKT', description: 'Yengil va qulay forma. Ism, raqam va ranglarni studiyada o‘zingiz tanlang.', fabric: 'poliester', designTime: 'dizayn vaqti', sizes: 'o‘lchamlar',
+    designStudio: 'Dizayn studiyasi', nameNumber: 'ISM VA RAQAM', namePlaceholder: 'Formadagi ism', addToCart: 'Savatga qo‘shish', openCart: 'Savatni ochish', cart: 'Savat', emptyCart: 'Savat bo‘sh', emptyCartSub: 'Birinchi komplektingizni dizayn studiyasida yarating.', goStudio: 'Studiyaga o‘tish', items: 'ta komplekt', products: 'Mahsulotlar', delivery: 'Yetkazib berish', free: 'Bepul', total: 'Jami', checkout: 'Buyurtma berish', mockCheckout: 'Demo rejim: backend ulanganidan keyin haqiqiy to‘lov shu yerda ishlaydi.',
+    myOrders: 'Buyurtmalarim', activeOrder: 'FAOL BUYURTMA', production: 'Ishlab chiqarilmoqda', delivered: 'Yetkazib berildi', myProfile: 'Profil', personalData: 'Profil ma’lumotlarim', addresses: 'Manzillarim', help: 'Yordam', language: 'Ilova tili', languageSub: 'O‘zbekcha, ruscha yoki inglizcha', arTitle: 'AR orqali kiyib ko‘rish', arSub: 'Keyingi bosqichda kamera ulanadi', added: 'Mahsulot savatga qo‘shildi', ok: 'Tushunarli',
+    goodDay: 'Xayrli kun', hello: 'Salom, Aziz', catalogSub: 'Futbol klublari formaları', heroTitle: 'O‘z dizayningni yarat', heroSub: 'Rang, matn, shrift, logo va raqam', startShort: 'Boshlash', track: 'Kuzatish', howItWorks: 'Qanday ishlaydi', step1: 'Dizayn yolda klub formasini tanlang', step2: 'Biz 1–2 kunda bosamiz va yetkazamiz', clubKitTitle: 'Klub formalari', clubKitSub: 'Futbolka + shortik to‘plami', allClubs: 'Barcha klublar', favoriteClub: 'SEVIMLI KLUB', popularModels: 'Mashhur modellar',
+    pcs: 'ta', promoApply: 'Qo‘llash', promoDemo: 'Demo rejim: promo kod backend ulanganida ishlaydi.',
+    kitHome: 'Uy', kitAway: 'Mehmon', kitThird: 'Uchinchi', front: 'Old', rear: 'Orqa',
+    tabColor: 'Rang', tabFrontText: 'Old yozuv', tabBackText: 'Orqa', tabLogo: 'Logo', tabShorts: 'Shortik', tabOther: 'Boshqa',
+    readyColors: 'TAYYOR RANGLAR', customColor: 'O‘z rangingiz', oneColor: 'Bir rang', gradientMode: 'Gradient', textColor: 'YOZUV RANGI',
+    logoHint: 'Galereyadan logo yuklang (PNG yoki SVG). Fon avtomatik olib tashlanadi.',
+    addShorts: 'Shortik qo‘shish', addShortsSub: 'To‘plam: futbolka + shortik', matchJersey: 'Futbolkaga moslashtirish', shortsColor: 'SHORTIK RANGI',
+    patches: 'YAMOQLAR · +5 000 DONA', patchCaptain: 'Kapitan', patchFlag: 'Bayroq', patchStar: 'Yulduz', sleevePrint: 'Yelqa ichidagi yozuv · bepul', sleevePlaceholder: 'Masalan, Dadamdan, 2026',
+    langShort: 'TIL', notifSection: 'BILDIRISHNOMALAR', notifOrders: 'Buyurtma holati', notifOrdersSub: 'Push · bosma, yetkazish', notifSms: 'SMS xabarlar', notifSmsSub: 'Pul yetmaydi', notifPromo: 'Aksiya va takliflar', notifPromoSub: 'Marketing roziligi',
+    deleteAccount: 'Akauntni o‘chirish', deleteDemo: 'Demo rejim: haqiqiy o‘chirish autentifikatsiya bilan ishlaydi.', logout: 'Chiqish', logoutDemo: 'Demo rejim: haqiqiy chiqish autentifikatsiya bilan ishlaydi.',
+    version: 'Formo v1.0.0 · Oferta · Maxfiylik', tabActive: 'Faol', tabDone: 'Tugagan', noOrders: 'Bu bo‘limda buyurtmalar yo‘q', clearCart: 'Savatni tozalash', noResults: 'Natija topilmadi', trackDesign: 'Dizayn', trackProduction: 'Ishlab chiqarish', trackDelivery: 'Yetkazish', trackStage: '3-bosqich', personalDataSub: 'O‘lcham, bo‘y va vazn', addressesSub: 'Toshkent, 1 ta saqlangan', helpSub: '24/7 aloqa',
+  },
+  ru: {
+    languageName: 'Русский', home: 'Главная', catalog: 'Каталог', studio: 'Студия', orders: 'Заказы', profile: 'Профиль', settings: 'Настройки', popular: 'Популярные клубы', all: 'Все', search: 'Найти модель', football: 'Футбол', street: 'Street', kids: 'Детские', customize: 'Настроить', baseKit: 'БАЗОВЫЙ КОМПЛЕКТ', description: 'Лёгкая и удобная форма. Выберите имя, номер и цвета в студии.', fabric: 'полиэстер', designTime: 'время дизайна', sizes: 'размеры', designStudio: 'Дизайн-студия', nameNumber: 'ИМЯ И НОМЕР', namePlaceholder: 'Имя на форме', addToCart: 'В корзину', openCart: 'Открыть корзину', cart: 'Корзина', emptyCart: 'Корзина пуста', emptyCartSub: 'Создайте первый комплект в дизайн-студии.', goStudio: 'Перейти в студию', items: 'комплектов', products: 'Товары', delivery: 'Доставка', free: 'Бесплатно', total: 'Итого', checkout: 'Оформить заказ', mockCheckout: 'Demo-режим: реальная оплата появится после подключения backend.', myOrders: 'Мои заказы', activeOrder: 'АКТИВНЫЙ ЗАКАЗ', production: 'В производстве', delivered: 'Доставлен', myProfile: 'Профиль', personalData: 'Данные профиля', addresses: 'Мои адреса', help: 'Помощь', language: 'Язык приложения', languageSub: 'Узбекский, русский или английский', arTitle: 'Примерить в AR', arSub: 'Камера подключится на следующем этапе', added: 'Товар добавлен в корзину', ok: 'Понятно',
+    goodDay: 'Добрый день', hello: 'Привет, Азиз', catalogSub: 'Формы футбольных клубов', heroTitle: 'Создай свой дизайн', heroSub: 'Цвет, текст, шрифт, логотип и номер', startShort: 'Начать', track: 'Отслеживать', howItWorks: 'Как это работает', step1: 'Выберите форму клуба в дизайнере', step2: 'Мы сошьём и доставим за 1–2 дня', clubKitTitle: 'Клубные формы', clubKitSub: 'Комплект: футболка + шорты', allClubs: 'Все клубы', favoriteClub: 'ЛЮБИМЫЙ КЛУБ', popularModels: 'Популярные модели',
+    pcs: 'шт', promoApply: 'Применить', promoDemo: 'Демо-режим: промокод заработает после подключения backend.',
+    kitHome: 'Дом', kitAway: 'Гость', kitThird: 'Третий', front: 'Фронт', rear: 'Зад',
+    tabColor: 'Цвет', tabFrontText: 'Надпись спереди', tabBackText: 'Зад', tabLogo: 'Логотип', tabShorts: 'Шорты', tabOther: 'Другое',
+    readyColors: 'ГОТОВЫЕ ЦВЕТА', customColor: 'Свой цвет', oneColor: 'Один цвет', gradientMode: 'Градиент', textColor: 'ЦВЕТ ТЕКСТА',
+    logoHint: 'Загрузите логотип из галереи (PNG или SVG). Фон удаляется автоматически.',
+    addShorts: 'Добавить шорты', addShortsSub: 'Комплект: футболка + шорты', matchJersey: 'Собрать с футболкой', shortsColor: 'ЦВЕТ ШОРТ',
+    patches: 'НАШИВКИ · +5 000 ШТ', patchCaptain: 'Капитан', patchFlag: 'Флаг', patchStar: 'Звезда', sleevePrint: 'Надпись на рукаве · бесплатно', sleevePlaceholder: 'Например, От папы, 2026',
+    langShort: 'ЯЗЫК', notifSection: 'УВЕДОМЛЕНИЯ', notifOrders: 'Статус заказа', notifOrdersSub: 'Push · печать, доставка', notifSms: 'SMS-сообщения', notifSmsSub: 'Платно', notifPromo: 'Акции и предложения', notifPromoSub: 'Согласие на маркетинг',
+    deleteAccount: 'Удалить аккаунт', deleteDemo: 'Демо-режим: реальное удаление заработает после подключения авторизации.', logout: 'Выйти', logoutDemo: 'Демо-режим: реальный выход заработает после подключения авторизации.',
+    version: 'Formo v1.0.0 · Оферта · Конфиденциальность', tabActive: 'Активные', tabDone: 'Завершённые', noOrders: 'В этом разделе заказов нет', clearCart: 'Очистить корзину', noResults: 'Ничего не найдено', trackDesign: 'Дизайн', trackProduction: 'Производство', trackDelivery: 'Доставка', trackStage: '3-й этап', personalDataSub: 'Размер, рост и вес', addressesSub: 'Ташкент, 1 адрес', helpSub: 'Поддержка 24/7',
+  },
+  en: {
+    languageName: 'English', home: 'Home', catalog: 'Catalog', studio: 'Studio', orders: 'Orders', profile: 'Profile', settings: 'Settings', popular: 'Popular clubs', all: 'All', search: 'Search model', football: 'Football', street: 'Street', kids: 'Kids', customize: 'Customize', baseKit: 'BASE KIT', description: 'A light and comfortable kit. Choose name, number and colors in the studio.', fabric: 'polyester', designTime: 'design time', sizes: 'sizes', designStudio: 'Design studio', nameNumber: 'NAME AND NUMBER', namePlaceholder: 'Name on kit', addToCart: 'Add to cart', openCart: 'Open cart', cart: 'Cart', emptyCart: 'Your cart is empty', emptyCartSub: 'Create your first kit in the design studio.', goStudio: 'Go to studio', items: 'kits', products: 'Products', delivery: 'Delivery', free: 'Free', total: 'Total', checkout: 'Checkout', mockCheckout: 'Demo mode: real payment will work after backend integration.', myOrders: 'My orders', activeOrder: 'ACTIVE ORDER', production: 'In production', delivered: 'Delivered', myProfile: 'Profile', personalData: 'Profile details', addresses: 'My addresses', help: 'Help', language: 'App language', languageSub: 'Uzbek, Russian or English', arTitle: 'Try on with AR', arSub: 'Camera will be connected later', added: 'Product added to cart', ok: 'Got it',
+    goodDay: 'Good day', hello: 'Hello, Aziz', catalogSub: 'Football club kits', heroTitle: 'Create your own design', heroSub: 'Color, text, font, logo and number', startShort: 'Start', track: 'Track', howItWorks: 'How it works', step1: 'Pick a club kit in the designer', step2: 'We sew and deliver in 1–2 days', clubKitTitle: 'Club kits', clubKitSub: 'Jersey + shorts set', allClubs: 'All clubs', favoriteClub: 'FAVORITE CLUB', popularModels: 'Popular models',
+    pcs: 'pcs', promoApply: 'Apply', promoDemo: 'Demo mode: promo code will work after backend integration.',
+    kitHome: 'Home', kitAway: 'Away', kitThird: 'Third', front: 'Front', rear: 'Back',
+    tabColor: 'Color', tabFrontText: 'Front text', tabBackText: 'Back', tabLogo: 'Logo', tabShorts: 'Shorts', tabOther: 'Other',
+    readyColors: 'READY COLORS', customColor: 'Your color', oneColor: 'Solid', gradientMode: 'Gradient', textColor: 'TEXT COLOR',
+    logoHint: 'Upload a logo from the gallery (PNG or SVG). The background is removed automatically.',
+    addShorts: 'Add shorts', addShortsSub: 'Set: jersey + shorts', matchJersey: 'Match with jersey', shortsColor: 'SHORTS COLOR',
+    patches: 'PATCHES · +5 000 PCS', patchCaptain: 'Captain', patchFlag: 'Flag', patchStar: 'Star', sleevePrint: 'Sleeve print · free', sleevePlaceholder: 'e.g. From dad, 2026',
+    langShort: 'LANGUAGE', notifSection: 'NOTIFICATIONS', notifOrders: 'Order status', notifOrdersSub: 'Push · print, delivery', notifSms: 'SMS messages', notifSmsSub: 'Paid', notifPromo: 'Offers and promos', notifPromoSub: 'Marketing consent',
+    deleteAccount: 'Delete account', deleteDemo: 'Demo mode: real deletion will work after auth is connected.', logout: 'Log out', logoutDemo: 'Demo mode: real logout will work after auth is connected.',
+    version: 'Formo v1.0.0 · Terms · Privacy', tabActive: 'Active', tabDone: 'Completed', noOrders: 'No orders in this section', clearCart: 'Clear cart', noResults: 'No results found', trackDesign: 'Design', trackProduction: 'Production', trackDelivery: 'Delivery', trackStage: 'Stage 3', personalDataSub: 'Size, height and weight', addressesSub: 'Tashkent, 1 saved', helpSub: '24/7 support',
+  },
+};
+
+export function useTranslation(language) {
+  const dictionary = dictionaries[language] || dictionaries.uz;
+  const t = useCallback((key) => dictionary[key] || dictionaries.uz[key] || key, [dictionary]);
+  return useMemo(() => ({ t, languageName: dictionary.languageName }), [t, dictionary.languageName]);
+}
+
+export const languageOptions = Object.keys(dictionaries).map((code) => ({ code, label: dictionaries[code].languageName }));
