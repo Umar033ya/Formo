@@ -1,8 +1,15 @@
+import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { setupApp } from './setup-app';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  await app.listen(process.env.PORT ?? 3001);
+  setupApp(app);
+  app.enableShutdownHooks();
+
+  const port = process.env.PORT ?? 3001;
+  await app.listen(port);
+  Logger.log(`API: http://localhost:${port}/api  ·  Swagger: http://localhost:${port}/api/docs`, 'Bootstrap');
 }
 bootstrap();

@@ -1,3 +1,6 @@
+import WorkshopsPage from '../../../features/factories/WorkshopsPage';
+
+// Operator tikuv sexlarini faqat ko'radi, akkaunt ochish superadminda
 export default function OperatorFactories() {
-  return <h2>Tikuvxonalar</h2>;
+  return <WorkshopsPage readOnly />;
 }
