@@ -1,0 +1,12 @@
+**/node_modules
+**/dist
+**/.turbo
+**/.expo
+**/.env
+**/.env.*
+!**/.env.example
+.git
+mobile/*
+!mobile/package.json
+**/coverage
+**/*.log
